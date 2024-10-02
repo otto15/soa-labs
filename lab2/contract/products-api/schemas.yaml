@@ -1,0 +1,167 @@
+components:
+  schemas:
+    CreateUpdateProductTo:
+      type: object
+      properties:
+        name:
+          type: string
+        coordinates:
+          $ref: '#/components/schemas/CoordinatesTo'
+        price:
+          type: integer
+        partNumber:
+          type: string
+          nullable: true
+          minLength: 10
+        manufactureCost:
+          type: integer
+        unitOfMeasure:
+          $ref: '#/components/schemas/UnitOfMeasure'
+        ownerPassportId:
+          type: string
+          maxLength: 44
+          nullable: true
+      required:
+        - name
+        - coordinates
+        - price
+        - manufactureCost
+        - unitOfMeasure
+
+    CreateProductResponseTo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        coordinates:
+          $ref: '#/components/schemas/CoordinatesTo'
+        price:
+          type: integer
+        partNumber:
+          type: string
+          nullable: true
+          minLength: 10
+        manufactureCost:
+          type: integer
+        unitOfMeasure:
+          $ref: '#/components/schemas/UnitOfMeasure'
+        owner:
+          $ref: '#/components/schemas/PersonTo'
+          nullable: true
+      required:
+        - id
+        - name
+        - coordinates
+        - price
+        - manufactureCost
+        - unitOfMeasure
+
+    CoordinatesTo:
+      type: object
+      properties:
+        x:
+          type: integer
+        y:
+          type: integer
+      required:
+        - x
+        - y
+
+    PersonTo:
+      type: object
+      properties:
+        name:
+          type: string
+        passportID:
+          type: string
+          maxLength: 44
+        eyeColor:
+          $ref: '#/components/schemas/EyeColor'
+        hairColor:
+          $ref: '#/components/schemas/HairColor'
+      required:
+        - name
+        - passportID
+
+    UnitOfMeasure:
+      type: string
+      enum:
+        - KILOGRAMS
+        - METERS
+        - MILLILITERS
+        - MILLIGRAMS
+
+    EyeColor:
+      type: string
+      enum:
+        - YELLOW
+        - WHITE
+        - BROWN
+
+    HairColor:
+      type: string
+      enum:
+        - GREEN
+        - RED
+        - BLACK
+        - YELLOW
+        - ORANGE
+
+    Criteria:
+      type: string
+      enum:
+        - NAME
+        - CREATION_DATE
+        - PRICE
+        - MANUFACTURE_COST
+
+    SortType:
+      type: string
+      enum:
+        - ASC
+        - DESC
+
+    FilterOperator:
+      type: string
+      enum:
+        - EQUAL
+        - LESS
+        - MORE
+        - LESS_OR_EQUAL
+        - MORE_OR_EQUAL
+
+    UpdateProduct404ResponseTo:
+      type: object
+      required: [ code ]
+      properties:
+        code:
+          type: string
+          enum:
+            - PRODUCT
+            - OWNER
+
+    ProductPriceSumTo:
+      type: object
+      required: [ sum ]
+      properties:
+        sum:
+          type: number
+
+    ApiErrorTo:
+      type: object
+      required: [ message, timestamp ]
+      properties:
+        message:
+          type: string
+        timestamp:
+          type: string

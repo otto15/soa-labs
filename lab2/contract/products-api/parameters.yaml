@@ -1,0 +1,76 @@
+components:
+  parameters:
+    IdParameter:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+
+    PageParameter:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 0
+      description: Page number for pagination
+
+    SizeParameter:
+      name: size
+      in: query
+      schema:
+        type: integer
+        default: 10
+      description: Number of items per page
+
+    SortCriteriaListParameter:
+      name: sortCriteriaList
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: 'schemas.yaml#/components/schemas/Criteria'
+      description: Sorting criteria list (e.g., 'NAME,PRICE')
+
+    SortTypeListParameter:
+      name: sortTypeList
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: 'schemas.yaml#/components/schemas/SortType'
+      description: Sorting type list (e.g., 'ACS,DESC')
+
+    FilterCriteriaListParameter:
+      name: filterCriteriaList
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: 'schemas.yaml#/components/schemas/Criteria'
+      description: Filtering criteria (e.g., 'NAME,PRICE')
+
+    FilterOperatorsParameter:
+      name: filterOperators
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: 'schemas.yaml#/components/schemas/FilterOperator'
+      description: Filtering criteria (e.g., 'EQUAL,LESS')
+
+    FilterValuesParameter:
+      name: filterValues
+      in: query
+      schema:
+        type: array
+        items:
+          type: object
+      description: Filtering values
+
+    CostParameter:
+      name: cost
+      in: query
+      required: true
+      schema:
+        type: number

@@ -1,0 +1,15 @@
+components:
+  parameters:
+    IncreasePercentParameter:
+      name: increasePercent
+      in: path
+      required: true
+      schema:
+        type: number
+
+    DecreasePercentParameter:
+      name: decreasePercent
+      in: path
+      required: true
+      schema:
+        type: number
