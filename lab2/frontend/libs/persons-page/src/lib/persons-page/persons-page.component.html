@@ -1,0 +1,101 @@
+<div class="header">
+    <h2>Поиск по людям</h2>
+    <button 
+        tuiButton
+        size="s"
+        appearance="accent"
+        (click)="openCreateForm(createPerson)"
+    >
+        Зарегистрировать человека
+    </button>
+</div>
+
+@if (person$ | async; as person) {
+    <table class="tui-table">
+        <tbody>
+            <tr class="tui-table__tr tui-table__tr_border_none">
+                <th class="tui-table__th tui-table__th_first">Имя</th>
+                <th class="tui-table__th">Паспорт</th>
+                <th class="tui-table__th">Цвет глаз</th>
+                <th class="tui-table__th tui-table__th_last">Цвет волос</th>
+            </tr>
+            @for (persona of person; track persona.passportId) {
+                <tr class="tui-table__tr tui-table__tr_border_none">
+                    <td class="tui-table__td tui-table__td_first">
+                        {{ persona.name }}
+                    </td>
+                    <td class="tui-table__td">
+                        <div class="persona-container">
+                            {{ persona.passportId }}
+                            <button 
+                                tuiButton
+                                size="xs"
+                                appearance="secondary"
+                                shape="rounded"
+                                iconStart="@tui.copy"
+                                (click)="copyPassportId(persona.passportId)"
+                            >
+                            </button>
+                        </div>
+                    </td>
+                    <td class="tui-table__td">
+                        {{ persona.eyeColor | tuiMapper: getRusEyeColor }}
+                    </td>
+                    <td class="tui-table__td tui-table__td_last">
+                        {{ persona.hairColor | tuiMapper: getRusHairColor }}
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<ng-template #createPerson let-observer>
+    <form [formGroup]="personForm">
+        <div class="row">
+            <tui-input formControlName="name">
+                Введите имя
+                <input
+                    tuiTextfieldLegacy
+                />
+            </tui-input>
+        </div>
+        <div class="row">
+            <tui-input formControlName="passportId">
+                Введите номер паспорта
+                <input
+                    tuiTextfieldLegacy
+                />
+            </tui-input>
+        </div>
+        <div class="row">
+            <tui-select formControlName="eyeColor">
+                Цвет глаз
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    [items]="eyeColors"
+                ></tui-data-list-wrapper>
+            </tui-select>
+        </div>
+        <div class="row">
+            <tui-select formControlName="hairColor">
+                Цвет волос
+                <tui-data-list-wrapper
+                    *tuiDataList
+                    [items]="hairColors"
+                ></tui-data-list-wrapper>
+            </tui-select>
+        </div>
+        <div class="row button-container">
+            <button 
+                tuiButton
+                size="m"
+                appearance="accent"
+                [disabled]="!personForm.valid"
+                (click)="submitForm(observer)"
+            >
+                Отправить форму
+            </button>
+        </div>
+    </form>
+</ng-template>
