@@ -1,0 +1,168 @@
+openapi: 3.0.0
+info:
+  title: Product Management API
+  version: 1.0.0
+servers:
+  - url: /api
+
+paths:
+  /products:
+    get:
+      summary: Get all products with optional sorting, filtering, and pagination
+      parameters:
+        - $ref: 'parameters.yaml#/components/parameters/PageParameter'
+        - $ref: 'parameters.yaml#/components/parameters/SizeParameter'
+        - $ref: 'parameters.yaml#/components/parameters/SortCriteriaListParameter'
+        - $ref: 'parameters.yaml#/components/parameters/SortTypeListParameter'
+        - $ref: 'parameters.yaml#/components/parameters/FilterCriteriaListParameter'
+        - $ref: 'parameters.yaml#/components/parameters/FilterOperatorsParameter'
+        - $ref: 'parameters.yaml#/components/parameters/FilterValuesParameter'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'schemas.yaml#/components/schemas/Product'
+        400:
+          description: Invalid parameters provided (e.g. negative size, page)
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Error400ResponseTo'
+
+    post:
+      summary: Add a new product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/components/schemas/CreateUpdateProductTo'
+      responses:
+        201:
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/CreateProductResponseTo'
+        400:
+          description: Invalid request body params (e.g. negative price)
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Error400ResponseTo'
+        404:
+          description: Owner not found
+
+  /products/{id}:
+    get:
+      summary: Get a product by ID
+      parameters:
+        - $ref: 'parameters.yaml#/components/parameters/IdParameter'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Product'
+        400:
+          description: Invalid id provided
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Error400ResponseTo'
+        404:
+          description: Product not found
+
+    put:
+      summary: Update a product by ID
+      parameters:
+        - $ref: 'parameters.yaml#/components/parameters/IdParameter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: 'schemas.yaml#/components/schemas/CreateUpdateProductTo'
+      responses:
+        200:
+          description: Product updated
+        400:
+          description: Invalid id provided
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Error400ResponseTo'
+        404:
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/UpdateProduct404ResponseTo'
+
+    delete:
+      summary: Delete a product by ID
+      parameters:
+        - $ref: 'parameters.yaml#/components/parameters/IdParameter'
+      responses:
+        204:
+          description: Product deleted
+        400:
+          description: Negative id provided
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Error400ResponseTo'
+        404:
+          description: Product not found
+
+  /products/price/sum:
+    get:
+      summary: Calculate the sum of prices for all products
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/ProductPriceSumTo'
+
+  /products/part-number/min:
+    get:
+      summary: Get a product with the minimum partNumber
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Product'
+        404:
+          description: No product found with partNumber
+
+  /products/manufacture-cost/less-than:
+    get:
+      summary: Get products with manufactureCost less than a specified value with pagination
+      parameters:
+        - $ref: 'parameters.yaml#/components/parameters/CostParameter'
+        - $ref: 'parameters.yaml#/components/parameters/PageParameter'
+        - $ref: 'parameters.yaml#/components/parameters/SizeParameter'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'schemas.yaml#/components/schemas/Product'
+        400:
+          description: Invalid parameters provided (e.g. negative cost, size, page)
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas.yaml#/components/schemas/Error400ResponseTo'

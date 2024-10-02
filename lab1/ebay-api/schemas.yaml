@@ -1,0 +1,10 @@
+components:
+  schemas:
+    Error400ResponseTo:
+      type: object
+      required: [ message, timestamp ]
+      properties:
+        message:
+          type: string
+        timestamp:
+          type: string
