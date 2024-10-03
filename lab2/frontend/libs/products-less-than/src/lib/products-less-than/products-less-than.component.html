@@ -1,0 +1,44 @@
+<div class="container">
+    <h3>Меньше чем</h3>
+    <div class="row">
+        <tui-input-number [formControl]="manufactureCostControl">
+            Введите manufactureCost
+            <input
+                tuiTextfieldLegacy
+            />
+        </tui-input-number>
+    </div>
+    <div class="row">
+        <tui-input-number [formControl]="page">
+            Введите page
+            <input
+                tuiTextfieldLegacy
+            />
+        </tui-input-number>
+    </div>
+    <div class="row">
+        <tui-input-number [formControl]="size">
+            Введите pageSize
+            <input
+                tuiTextfieldLegacy
+            />
+        </tui-input-number>
+    </div>
+    <div class="button-container">
+        <button 
+            tuiButton
+            size="m"
+            (click)="getProducts(productsView)"
+        >
+            Получить
+        </button>
+    </div>
+</div>
+
+<ng-template #productsView>
+    @if (products$ | async; as products) {
+        <lib-products-table
+            [products]="products">
+        </lib-products-table>
+    }
+</ng-template>

@@ -14,6 +14,8 @@ import { ProductViewComponent } from '@soa2-front/product-view';
 import { ProductEditComponent } from '@soa2-front/product-edit';
 import { ProductsPriceSumComponent } from '@soa2-front/products-price-sum';
 import { ProductMinComponent } from '@soa2-front/product-min';
+import { ProductsLessThanComponent } from '@soa2-front/products-less-than';
+import { ProductByIdComponent } from '@soa2-front/product-by-id';
 
 @Component({
   selector: 'lib-products-page',
@@ -33,6 +35,8 @@ import { ProductMinComponent } from '@soa2-front/product-min';
     ProductEditComponent,
     ProductsPriceSumComponent,
     ProductMinComponent,
+    ProductsLessThanComponent,
+    ProductByIdComponent,
   ],
   templateUrl: './products-page.component.html',
   styleUrl: './products-page.component.less',

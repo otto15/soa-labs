@@ -83,4 +83,82 @@ export class ProductsService {
             sum: 1
         });
     }
+
+    public getMinimalProduct(): Observable<Product> {
+        return of(
+            {
+                price: 10,
+                name: 'Тестовый продукт',
+                coordinates: {
+                    x: 1,
+                    y: 2,
+                },
+                manufactureCost: 10,
+                partNumber: '123456271782',
+                id: 1,
+                owner: {
+                    name: 'Татьяна Маркина',
+                    passportId: '1337228228',
+                },
+                creationDate: '2024-06-09',
+                unitOfMeasure: UnitOfMeasure.Meters,
+            }
+        );
+    }
+
+    public getLessThanProduct(
+        cost: number,
+        page: number,
+        size: number,
+    ): Observable<Product[]> {
+        // return this.http.get<Product[]>(
+        //     `${this.baseUrl}/${this.apiProductsPrefix}/manufacture-cost/less-than?cost=${cost}&page=${page}&size=${size}`
+        // )
+
+        return of([
+            {
+                price: 10,
+                name: 'Тестовый продукт',
+                coordinates: {
+                    x: 1,
+                    y: 2,
+                },
+                manufactureCost: 10,
+                partNumber: '123456271782',
+                id: 1,
+                owner: {
+                    name: 'Татьяна Маркина',
+                    passportId: '1337228228',
+                },
+                creationDate: '2024-06-09',
+                unitOfMeasure: UnitOfMeasure.Meters,
+            }
+        ]);
+    }
+
+    public getById(id: number): Observable<Product> {
+        // return this.http.get<Product>(
+        //     `${this.baseUrl}/${this.apiProductsPrefix}/${id}`,
+        // );
+
+        return of(
+            {
+                price: 10,
+                name: 'Тестовый продукт',
+                coordinates: {
+                    x: 1,
+                    y: 2,
+                },
+                manufactureCost: 10,
+                partNumber: '123456271782',
+                id: 1,
+                owner: {
+                    name: 'Татьяна Маркина',
+                    passportId: '1337228228',
+                },
+                creationDate: '2024-06-09',
+                unitOfMeasure: UnitOfMeasure.Meters,
+            }
+        );
+    }
 }
