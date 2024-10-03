@@ -14,7 +14,17 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@soa2-front/persons-page": ["libs/persons-page/src/index.ts"],
+      "@soa2-front/product-edit": ["libs/product-edit/src/index.ts"],
+      "@soa2-front/product-min": ["libs/product-min/src/index.ts"],
+      "@soa2-front/product-view": ["libs/product-view/src/index.ts"],
+      "@soa2-front/products-page": ["libs/products-page/src/index.ts"],
+      "@soa2-front/products-price-sum": [
+        "libs/products-price-sum/src/index.ts"
+      ],
+      "@soa2-front/shared": ["libs/shared/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
