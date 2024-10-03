@@ -9,18 +9,20 @@ components:
           $ref: '#/components/schemas/CoordinatesTo'
         price:
           type: integer
+          format: int64
+          minimum: 1
         partNumber:
           type: string
-          nullable: true
           minLength: 10
         manufactureCost:
           type: integer
+          format: int64
+          minimum: 1
         unitOfMeasure:
           $ref: '#/components/schemas/UnitOfMeasure'
         ownerPassportId:
           type: string
           maxLength: 44
-          nullable: true
       required:
         - name
         - coordinates
@@ -35,7 +37,7 @@ components:
           type: integer
           format: int64
 
-    Product:
+    ProductTo:
       type: object
       properties:
         id:
@@ -45,23 +47,25 @@ components:
           type: string
         coordinates:
           $ref: '#/components/schemas/CoordinatesTo'
+        createdDate:
+          type: date
         price:
           type: integer
+          format: int64
         partNumber:
           type: string
-          nullable: true
-          minLength: 10
         manufactureCost:
           type: integer
+          format: int64
         unitOfMeasure:
           $ref: '#/components/schemas/UnitOfMeasure'
         owner:
           $ref: '#/components/schemas/PersonTo'
-          nullable: true
       required:
         - id
         - name
         - coordinates
+        - createdDate
         - price
         - manufactureCost
         - unitOfMeasure

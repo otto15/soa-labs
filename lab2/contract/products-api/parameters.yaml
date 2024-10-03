@@ -6,13 +6,17 @@ components:
       required: true
       schema:
         type: integer
+        format: int64
+        minimum: 1
 
     PageParameter:
       name: page
       in: query
       schema:
         type: integer
+        format: int64
         default: 0
+        minimum: 1
       description: Page number for pagination
 
     SizeParameter:
@@ -20,7 +24,10 @@ components:
       in: query
       schema:
         type: integer
+        format: int64
         default: 10
+        minimum: 1
+        maximum: 500
       description: Number of items per page
 
     SortCriteriaListParameter:
@@ -73,4 +80,5 @@ components:
       in: query
       required: true
       schema:
-        type: number
+        type: integer
+        format: int64

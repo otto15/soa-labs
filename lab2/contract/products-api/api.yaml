@@ -1,13 +1,20 @@
 openapi: 3.0.0
 info:
-  title: Product Management API
+  title: soa-products
+  description: Product Management API
   version: 1.0.0
+
+tags:
+  - name: product
+
 servers:
   - url: /api
 
 paths:
   /products:
     get:
+      operationId: getProducts
+      tags: [ product ]
       summary: Get all products with optional sorting, filtering, and pagination
       parameters:
         - $ref: 'parameters.yaml#/components/parameters/PageParameter'
@@ -25,7 +32,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'schemas.yaml#/components/schemas/Product'
+                  $ref: 'schemas.yaml#/components/schemas/ProductTo'
         400:
           description: Invalid parameters provided (e.g. negative size, page)
           content:
@@ -34,6 +41,8 @@ paths:
                 $ref: 'schemas.yaml#/components/schemas/ApiErrorTo'
 
     post:
+      operationId: createProduct
+      tags: [ product ]
       summary: Add a new product
       requestBody:
         required: true
@@ -63,6 +72,8 @@ paths:
 
   /products/{id}:
     get:
+      operationId: getProductById
+      tags: [ product ]
       summary: Get a product by ID
       parameters:
         - $ref: 'parameters.yaml#/components/parameters/IdParameter'
@@ -72,7 +83,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'schemas.yaml#/components/schemas/Product'
+                $ref: 'schemas.yaml#/components/schemas/ProductTo'
         400:
           description: Invalid id provided
           content:
@@ -87,6 +98,8 @@ paths:
                 $ref: 'schemas.yaml#/components/schemas/ApiErrorTo'
 
     put:
+      operationId: updateProductById
+      tags: [ product ]
       summary: Update a product by ID
       parameters:
         - $ref: 'parameters.yaml#/components/parameters/IdParameter'
@@ -113,6 +126,8 @@ paths:
                 $ref: 'schemas.yaml#/components/schemas/UpdateProduct404ResponseTo'
 
     delete:
+      operationId: deleteProductById
+      tags: [ product ]
       summary: Delete a product by ID
       parameters:
         - $ref: 'parameters.yaml#/components/parameters/IdParameter'
@@ -134,6 +149,8 @@ paths:
 
   /products/price/sum:
     get:
+      operationId: getAllProductPricesSum
+      tags: [ product ]
       summary: Calculate the sum of prices for all products
       responses:
         200:
@@ -145,6 +162,8 @@ paths:
 
   /products/part-number/min:
     get:
+      operationId: getMinPartNumberProduct
+      tags: [ product ]
       summary: Get a product with the minimum partNumber
       responses:
         200:
@@ -152,7 +171,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'schemas.yaml#/components/schemas/Product'
+                $ref: 'schemas.yaml#/components/schemas/ProductTo'
         404:
           description: No product found with partNumber
           content:
@@ -162,6 +181,8 @@ paths:
 
   /products/manufacture-cost/less-than:
     get:
+      operationId: getProductsWithManufactureCostLessThan
+      tags: [ product ]
       summary: Get products with manufactureCost less than a specified value with pagination
       parameters:
         - $ref: 'parameters.yaml#/components/parameters/CostParameter'
@@ -175,7 +196,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'schemas.yaml#/components/schemas/Product'
+                  $ref: 'schemas.yaml#/components/schemas/ProductTo'
         400:
           description: Invalid parameters provided (e.g. negative cost, size, page)
           content:
