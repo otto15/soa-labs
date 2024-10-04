@@ -7,8 +7,10 @@ import generated.soa.products.dto.CreatePersonRequestTo
 import generated.soa.products.dto.CreatePersonResponseTo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RestController
 
+@CrossOrigin(origins = ["*"])
 @RestController
 class PersonController(
     private val personService: PersonService,

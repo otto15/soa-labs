@@ -24,4 +24,11 @@ class ProductService(
     }
 
     fun getProduct(id: Long) = productDao.findById(id) ?: throw ProductNotFoundException(id)
+
+    @Transactional
+    fun deleteProduct(id: Long) {
+        if (!productDao.deleteById(id)) {
+            throw ProductNotFoundException(id)
+        }
+    }
 }

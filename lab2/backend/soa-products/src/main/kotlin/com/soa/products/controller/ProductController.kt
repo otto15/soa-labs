@@ -9,8 +9,10 @@ import generated.soa.products.dto.CreateUpdateProductRequestTo
 import generated.soa.products.dto.ProductTo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RestController
 
+@CrossOrigin(origins = ["*"])
 @RestController
 class ProductController(
     private val productService: ProductService,
@@ -27,4 +29,13 @@ class ProductController(
         ResponseEntity.ok(
             productService.getProduct(id).toProductTo()
         )
+
+    override fun deleteProductById(id: Long): ResponseEntity<Unit> {
+        if (id < 0) {
+            return ResponseEntity.badRequest().build()
+        }
+
+        productService.deleteProduct(id)
+        return ResponseEntity.noContent().build()
+    }
 }

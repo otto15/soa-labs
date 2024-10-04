@@ -49,6 +49,17 @@ class ProductDao(
         null
     }
 
+    fun deleteById(id: Long): Boolean {
+        val sql = """
+            DELETE FROM Product WHERE id = :id
+        """.trimIndent()
+
+        val params = MapSqlParameterSource().addValue("id", id)
+
+        return namedParameterJdbcTemplate.update(sql, params) > 0
+    }
+
+
     companion object {
         private val SELECT_PRODUCT_BY_ID = """
             SELECT 
