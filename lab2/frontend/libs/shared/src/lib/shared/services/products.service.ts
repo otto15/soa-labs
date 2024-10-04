@@ -67,43 +67,21 @@ export class ProductsService {
     }
 
     public deleteProduct(productId: number): Observable<void> {
-        // this.http.delete<void>(
-        //     `${this.baseUrl}/${this.apiProductsPrefix}/${productId}`,
-        // );
-
-        return of(undefined);
+        return this.http.delete<void>(
+            `${this.baseUrl}/${this.apiProductsPrefix}/${productId}`,
+        );
     }
 
     public getPricesSum(): Observable<PricesSum> {
-        // return this.http.get<PricesSum>(
-        //     `${this.baseUrl}/${this.apiProductsPrefix}/price/sum`
-        // );
-
-        return of({
-            sum: 1
-        });
+        return this.http.get<PricesSum>(
+            `${this.baseUrl}/${this.apiProductsPrefix}/price/sum`
+        );
     }
 
     public getMinimalProduct(): Observable<Product> {
-        return of(
-            {
-                price: 10,
-                name: 'Тестовый продукт',
-                coordinates: {
-                    x: 1,
-                    y: 2,
-                },
-                manufacturerCost: 10,
-                partNumber: '123456271782',
-                id: 1,
-                owner: {
-                    name: 'Татьяна Маркина',
-                    passportID: '1337228228',
-                },
-                createdDate: '2024-06-09',
-                unitOfMeasure: UnitOfMeasure.Meters,
-            }
-        );
+        return this.http.get<Product>(
+            `${this.baseUrl}/${this.apiProductsPrefix}/part-number/min`
+        )
     }
 
     public getLessThanProduct(
@@ -111,29 +89,9 @@ export class ProductsService {
         page: number,
         size: number,
     ): Observable<Product[]> {
-        // return this.http.get<Product[]>(
-        //     `${this.baseUrl}/${this.apiProductsPrefix}/manufacture-cost/less-than?cost=${cost}&page=${page}&size=${size}`
-        // )
-
-        return of([
-            {
-                price: 10,
-                name: 'Тестовый продукт',
-                coordinates: {
-                    x: 1,
-                    y: 2,
-                },
-                manufacturerCost: 10,
-                partNumber: '123456271782',
-                id: 1,
-                owner: {
-                    name: 'Татьяна Маркина',
-                    passportID: '1337228228',
-                },
-                createdDate: '2024-06-09',
-                unitOfMeasure: UnitOfMeasure.Meters,
-            }
-        ]);
+        return this.http.get<Product[]>(
+            `${this.baseUrl}/${this.apiProductsPrefix}/manufacture-cost/less-than?cost=${cost}&page=${page}&size=${size}`
+        )
     }
 
     public getById(id: number): Observable<Product> {
