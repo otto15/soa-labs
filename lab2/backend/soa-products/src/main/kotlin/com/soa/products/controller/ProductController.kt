@@ -6,6 +6,7 @@ import com.soa.products.transformer.toProductTo
 import generated.soa.products.controller.ProductApi
 import generated.soa.products.dto.CreateProductResponseTo
 import generated.soa.products.dto.CreateUpdateProductRequestTo
+import generated.soa.products.dto.ProductPriceSumTo
 import generated.soa.products.dto.ProductTo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -38,4 +39,13 @@ class ProductController(
         productService.deleteProduct(id)
         return ResponseEntity.noContent().build()
     }
+
+    override fun getAllProductPricesSum(): ResponseEntity<ProductPriceSumTo> {
+        val totalSum = productService.getTotalPrice()
+
+        val response = ProductPriceSumTo(sum = java.math.BigDecimal.valueOf(totalSum))
+
+        return ResponseEntity.ok(response)
+    }
+
 }

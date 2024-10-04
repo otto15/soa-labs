@@ -59,6 +59,14 @@ class ProductDao(
         return namedParameterJdbcTemplate.update(sql, params) > 0
     }
 
+    fun getTotalPrice(): Long {
+        val sql = """
+            SELECT COALESCE(SUM(price), 0) FROM Product
+        """.trimIndent()
+
+        return namedParameterJdbcTemplate.queryForObject(sql, MapSqlParameterSource(), Long::class.java)
+            ?: 0L
+    }
 
     companion object {
         private val SELECT_PRODUCT_BY_ID = """

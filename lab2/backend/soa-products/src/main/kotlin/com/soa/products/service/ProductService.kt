@@ -31,4 +31,8 @@ class ProductService(
             throw ProductNotFoundException(id)
         }
     }
+
+    fun getTotalPrice(): Long {
+        return productDao.getTotalPrice()
+    }
 }
