@@ -87,13 +87,13 @@ export class ProductsPageComponent {
     const coordinateY = this.productForm.controls.coordinateY.value;
     const price = this.productForm.controls.price.value;
     const partNumber = this.productForm.controls.partNumber.value;
-    const manufactureCost = this.productForm.controls.manufactureCost.value;
+    const manufacturerCost = this.productForm.controls.manufactureCost.value;
     const unitOfMeasure = this.productForm.controls.unitOfMeasure.value;
     const personPassportId = this.productForm.controls.personPassportId.value;
 
     if (
       !name || coordinateX === null || coordinateY === null || price === null ||
-      manufactureCost === null || !unitOfMeasure
+      manufacturerCost === null || !unitOfMeasure
     ) {
       return;
     }
@@ -112,7 +112,7 @@ export class ProductsPageComponent {
       },
       price,
       partNumber,
-      manufactureCost,
+      manufacturerCost,
       unitOfMeasure: mappedUnitOfMeasure,
       ownerPassportId: personPassportId,
     }).subscribe({

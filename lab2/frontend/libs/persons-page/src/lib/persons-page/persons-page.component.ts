@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TuiAlertService, TuiButton, TuiDataList, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import { TuiInputModule, TuiSelectModule } from '@taiga-ui/legacy';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, MaxLengthValidator, ReactiveFormsModule } from '@angular/forms';
 import { TuiDataListWrapper } from '@taiga-ui/kit/components/data-list-wrapper';
 import { noEmptyStringValidator } from './no-empty-string.validator';
-import { PersonService } from '@soa2-front/shared';
+import { Color, ColorType, PersonService } from '@soa2-front/shared';
 import { EyeColorType, EyeEngColorMap, EyeRusColorMap, HairColorType, HairEngColorMap, HairRusColorMap } from '@soa2-front/shared';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { TuiMapperPipe } from '@taiga-ui/cdk/pipes/mapper';
@@ -57,14 +57,24 @@ export class PersonsPageComponent {
     "Седой"
   ];
 
+  protected readonly colors = [
+    Color.Black,
+    Color.Brown,
+    Color.Green,
+    Color.Orange,
+    Color.Red,
+    Color.White,
+    Color.Yellow,
+  ];
+
   protected readonly hairRusColorMap = HairRusColorMap;
   protected readonly eyeRusColorMap = EyeRusColorMap;
 
   protected readonly personForm = new FormGroup({
     name: new FormControl<string>('', [noEmptyStringValidator()]),
     passportId: new FormControl<string>('', [noEmptyStringValidator()]),
-    eyeColor: new FormControl<string>("Карий"),
-    hairColor: new FormControl<string>("Черный"),
+    eyeColor: new FormControl<ColorType>(Color.Black),
+    hairColor: new FormControl<ColorType>(Color.Black),
   })
 
   protected openCreateForm(template: PolymorpheusContent): void {
@@ -84,26 +94,19 @@ export class PersonsPageComponent {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected submitForm(observer: any): void {
     const name = this.personForm.controls.name.value;
-    const passportId = this.personForm.controls.passportId.value;
+    const passportID = this.personForm.controls.passportId.value;
     const eyeColor = this.personForm.controls.eyeColor.value;
     const hairColor = this.personForm.controls.hairColor.value;
   
-    if (!name || !passportId || !eyeColor || !hairColor) {
-      return;
-    }
-    
-    const hairMappedColor = this.hairRusColorMap.get(hairColor);
-    const eyeMappedColor = this.eyeRusColorMap.get(eyeColor);
-
-    if (!hairMappedColor || !eyeMappedColor) {
+    if (!name || !passportID || !eyeColor || !hairColor) {
       return;
     }
 
     this.personService.createPerson({
       name,
-      passportId,
-      hairColor: hairMappedColor,
-      eyeColor: eyeMappedColor,
+      passportID,
+      hairColor: hairColor,
+      eyeColor: eyeColor,
     }).subscribe({
         next: () => {
           this.searchTrigger$.next(

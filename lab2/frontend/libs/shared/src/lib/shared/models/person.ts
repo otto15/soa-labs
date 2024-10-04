@@ -1,9 +1,8 @@
-import { EyeColorType } from "./eye-color.enum";
-import { HairColorType } from "./hair-color.enum";
+import { ColorType } from "./color.enum";
 
 export interface Person {
     name: string;
-    passportId: string;
-    eyeColor: EyeColorType;
-    hairColor: HairColorType;
+    passportID: string;
+    eyeColor: ColorType;
+    hairColor: ColorType;
 }

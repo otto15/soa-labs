@@ -6,7 +6,7 @@ export interface CreateProductPayload {
     coordinates: Coordinates;
     price: number;
     partNumber: string | null;
-    manufactureCost: number;
+    manufacturerCost: number;
     unitOfMeasure: UnitOfMeasureType;
     ownerPassportId: string | null;
 }

@@ -7,3 +7,4 @@ export * from './coordinates';
 export * from './product';
 export * from './owner';
 export * from './prices-sum';
+export * from './color.enum';

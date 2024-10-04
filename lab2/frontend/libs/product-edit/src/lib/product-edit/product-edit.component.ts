@@ -64,9 +64,9 @@ export class ProductEditComponent implements OnInit {
       coordinateY: product.coordinates.y,
       price: product.price,
       partNumber: product.partNumber,
-      manufactureCost: product.manufactureCost,
+      manufactureCost: product.manufacturerCost,
       unitOfMeasure: unitOfMeasureMapped,
-      personPassportId: product.owner.passportId,
+      personPassportId: product.owner.passportID,
     });
   }
 
@@ -82,13 +82,13 @@ export class ProductEditComponent implements OnInit {
     const coordinateY = this.productForm.controls.coordinateY.value;
     const price = this.productForm.controls.price.value;
     const partNumber = this.productForm.controls.partNumber.value;
-    const manufactureCost = this.productForm.controls.manufactureCost.value;
+    const manufacturerCost = this.productForm.controls.manufactureCost.value;
     const unitOfMeasure = this.productForm.controls.unitOfMeasure.value;
     const personPassportId = this.productForm.controls.personPassportId.value;
 
     if (
       !name || coordinateX === null || coordinateY === null || price === null ||
-      manufactureCost === null || !unitOfMeasure
+      manufacturerCost === null || !unitOfMeasure
     ) {
       return;
     }
@@ -107,7 +107,7 @@ export class ProductEditComponent implements OnInit {
       },
       price,
       partNumber,
-      manufactureCost,
+      manufacturerCost,
       unitOfMeasure: mappedUnitOfMeasure,
       ownerPassportId: personPassportId,
     }).subscribe({

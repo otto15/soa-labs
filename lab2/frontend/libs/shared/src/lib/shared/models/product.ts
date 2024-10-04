@@ -6,10 +6,10 @@ export interface Product {
     price: number;
     name: string;
     coordinates: Coordinates;
-    manufactureCost: number;
+    manufacturerCost: number;
     partNumber: string;
     id: number;
     owner: Owner;
-    creationDate: string;
+    createdDate: string;
     unitOfMeasure: UnitOfMeasureType;
 }

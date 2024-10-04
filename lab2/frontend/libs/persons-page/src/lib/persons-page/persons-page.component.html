@@ -19,30 +19,30 @@
                 <th class="tui-table__th">Цвет глаз</th>
                 <th class="tui-table__th tui-table__th_last">Цвет волос</th>
             </tr>
-            @for (persona of person; track persona.passportId) {
+            @for (persona of person; track persona.passportID) {
                 <tr class="tui-table__tr tui-table__tr_border_none">
                     <td class="tui-table__td tui-table__td_first">
                         {{ persona.name }}
                     </td>
                     <td class="tui-table__td">
                         <div class="persona-container">
-                            {{ persona.passportId }}
+                            {{ persona.passportID }}
                             <button 
                                 tuiButton
                                 size="xs"
                                 appearance="secondary"
                                 shape="rounded"
                                 iconStart="@tui.copy"
-                                (click)="copyPassportId(persona.passportId)"
+                                (click)="copyPassportId(persona.passportID)"
                             >
                             </button>
                         </div>
                     </td>
                     <td class="tui-table__td">
-                        {{ persona.eyeColor | tuiMapper: getRusEyeColor }}
+                        {{ persona.eyeColor }}
                     </td>
                     <td class="tui-table__td tui-table__td_last">
-                        {{ persona.hairColor | tuiMapper: getRusHairColor }}
+                        {{ persona.hairColor }}
                     </td>
                 </tr>
             }
@@ -73,7 +73,7 @@
                 Цвет глаз
                 <tui-data-list-wrapper
                     *tuiDataList
-                    [items]="eyeColors"
+                    [items]="colors"
                 ></tui-data-list-wrapper>
             </tui-select>
         </div>
@@ -82,7 +82,7 @@
                 Цвет волос
                 <tui-data-list-wrapper
                     *tuiDataList
-                    [items]="hairColors"
+                    [items]="colors"
                 ></tui-data-list-wrapper>
             </tui-select>
         </div>

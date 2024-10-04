@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     NG_EVENT_PLUGINS,
     {
       provide: BASE_URL,
-      useValue: 'http://localhost:8080'
+      useValue: 'http://localhost:1516'
     },
     {
       provide: API_PRODUCTS_PREFIX,
@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: API_PERSON_PREFIX,
-      useValue: 'person'
+      useValue: 'persons'
     },
     {
       provide: API_EBAY_PREFIX,
