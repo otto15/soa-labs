@@ -96,6 +96,37 @@ class ProductDao(
         }
     }
 
+    fun findProductsWithManufacturerCostLessThan(cost: Long, offset: Long, limit: Long): List<Product> {
+        val sql = """
+            SELECT 
+                p.id as p_id, 
+                p.name as p_name, 
+                p.coordinates, 
+                p.creationDate, 
+                p.price, 
+                p.partNumber, 
+                p.manufacturerCost, 
+                p.unitOfMeasure, 
+                p.ownerPassportID, 
+                pe.passportID, 
+                pe.name as pe_name, 
+                pe.eyeColor, 
+                pe.hairColor
+            FROM product p
+            LEFT JOIN person pe ON p.ownerPassportID = pe.passportID
+            WHERE p.manufacturerCost < :cost
+            ORDER BY p.manufacturerCost
+            LIMIT :limit OFFSET :offset
+        """.trimIndent()
+
+        val params = MapSqlParameterSource()
+            .addValue("cost", cost)
+            .addValue("limit", limit)
+            .addValue("offset", offset)
+
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER)
+    }
+
 
     companion object {
         private val SELECT_PRODUCT_BY_ID = """

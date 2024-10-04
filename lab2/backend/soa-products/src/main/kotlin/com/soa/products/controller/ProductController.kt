@@ -52,4 +52,16 @@ class ProductController(
         ResponseEntity.ok(
             productService.getProductWithMinPartNumber().toProductTo()
         )
+
+    override fun getProductsWithmanufacturerCostLessThan(
+        cost: Long,
+        page: Long,
+        size: Long
+    ): ResponseEntity<List<ProductTo>> {
+        if (cost < 0) {
+            return ResponseEntity.badRequest().build()
+        }
+
+        return ResponseEntity.ok(productService.getProductsWithManufacturerCostLessThan(cost, page, size))
+    }
 }
