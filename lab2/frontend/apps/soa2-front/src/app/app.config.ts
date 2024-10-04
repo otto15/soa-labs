@@ -3,7 +3,7 @@ import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { NG_EVENT_PLUGINS } from '@taiga-ui/event-plugins';
-import { API_PERSON_PREFIX, API_PRODUCTS_PREFIX, BASE_URL, } from "@soa2-front/shared";
+import { API_EBAY_PREFIX, API_PERSON_PREFIX, API_PRODUCTS_PREFIX, BASE_URL, } from "@soa2-front/shared";
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
@@ -24,6 +24,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: API_PERSON_PREFIX,
       useValue: 'person'
+    },
+    {
+      provide: API_EBAY_PREFIX,
+      useValue: 'ebay'
     }
   ],
 };

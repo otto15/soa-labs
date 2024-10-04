@@ -11,4 +11,9 @@ export const appRoutes: Route[] = [
         loadComponent: async () =>
             import('@soa2-front/persons-page').then((m) => m.PersonsPageComponent),
     },
+    {
+        path: 'ebay',
+        loadComponent: async () => 
+            import('@soa2-front/ebay-page').then((m) => m.EbayPageComponent),
+    },
 ];
