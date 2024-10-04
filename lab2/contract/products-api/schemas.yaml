@@ -1,6 +1,6 @@
 components:
   schemas:
-    CreateUpdateProductTo:
+    CreateUpdateProductRequestTo:
       type: object
       properties:
         name:
@@ -14,12 +14,12 @@ components:
         partNumber:
           type: string
           minLength: 10
-        manufactureCost:
+        manufacturerCost:
           type: integer
           format: int64
           minimum: 1
         unitOfMeasure:
-          $ref: '#/components/schemas/UnitOfMeasure'
+          $ref: '#/components/schemas/UnitOfMeasureTo'
         ownerPassportId:
           type: string
           maxLength: 44
@@ -27,8 +27,24 @@ components:
         - name
         - coordinates
         - price
-        - manufactureCost
+        - manufacturerCost
         - unitOfMeasure
+
+    CreatePersonRequestTo:
+      type: object
+      properties:
+        name:
+          type: string
+        passportID:
+          type: string
+          maxLength: 44
+        eyeColor:
+          $ref: '#/components/schemas/ColorTo'
+        hairColor:
+          $ref: '#/components/schemas/ColorTo'
+      required:
+        - name
+        - passportID
 
     CreateProductResponseTo:
       type: object
@@ -36,6 +52,17 @@ components:
         id:
           type: integer
           format: int64
+      required:
+        - id
+
+    CreatePersonResponseTo:
+      type: object
+      properties:
+        passportID:
+          type: string
+          maxLength: 44
+      required:
+        - passportID
 
     ProductTo:
       type: object
@@ -54,11 +81,11 @@ components:
           format: int64
         partNumber:
           type: string
-        manufactureCost:
+        manufacturerCost:
           type: integer
           format: int64
         unitOfMeasure:
-          $ref: '#/components/schemas/UnitOfMeasure'
+          $ref: '#/components/schemas/UnitOfMeasureTo'
         owner:
           $ref: '#/components/schemas/PersonTo'
       required:
@@ -67,7 +94,7 @@ components:
         - coordinates
         - createdDate
         - price
-        - manufactureCost
+        - manufacturerCost
         - unitOfMeasure
 
     CoordinatesTo:
@@ -90,14 +117,14 @@ components:
           type: string
           maxLength: 44
         eyeColor:
-          $ref: '#/components/schemas/EyeColor'
+          $ref: '#/components/schemas/ColorTo'
         hairColor:
-          $ref: '#/components/schemas/HairColor'
+          $ref: '#/components/schemas/ColorTo'
       required:
         - name
         - passportID
 
-    UnitOfMeasure:
+    UnitOfMeasureTo:
       type: string
       enum:
         - KILOGRAMS
@@ -105,20 +132,15 @@ components:
         - MILLILITERS
         - MILLIGRAMS
 
-    EyeColor:
+    ColorTo:
       type: string
       enum:
         - YELLOW
         - WHITE
         - BROWN
-
-    HairColor:
-      type: string
-      enum:
         - GREEN
         - RED
         - BLACK
-        - YELLOW
         - ORANGE
 
     Criteria:

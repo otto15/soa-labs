@@ -1,5 +1,6 @@
 package com.soa.products.dao
 
+import com.soa.products.command.CreateProductCommand
 import com.soa.products.domain.Color
 import com.soa.products.domain.Coordinates
 import com.soa.products.domain.Person
@@ -15,7 +16,30 @@ import org.springframework.stereotype.Repository
 class ProductDao(
     private val namedParameterJdbcTemplate: NamedParameterJdbcTemplate
 ) {
-    fun findById(id: Int): Product? = try {
+    fun insert(createProductCommand: CreateProductCommand): Long {
+        val sql = """
+            INSERT INTO Product 
+            (name, coordinates, creationDate, price, manufacturerCost, unitOfMeasure, partNumber, ownerPassportID)
+            VALUES (:name, point(:x, :y), :creationDate, :price, :manufacturerCost, :unitOfMeasure::unit_of_measure, :partNumber, :ownerPassportId)
+            RETURNING id;
+        """.trimIndent()
+
+        val params = MapSqlParameterSource()
+            .addValue("name", createProductCommand.name)
+            .addValue("x", createProductCommand.coordinates.x)
+            .addValue("y", createProductCommand.coordinates.y)
+            .addValue("creationDate", java.sql.Date.valueOf(java.time.LocalDate.now()))
+            .addValue("price", createProductCommand.price)
+            .addValue("manufacturerCost", createProductCommand.manufacturerCost)
+            .addValue("unitOfMeasure", createProductCommand.unitOfMeasure.name)
+            .addValue("partNumber", createProductCommand.partNumber)
+            .addValue("ownerPassportId", createProductCommand.ownerPassportId)
+
+        return namedParameterJdbcTemplate.queryForObject(sql, params, Long::class.java)
+            ?: throw IllegalStateException("Failed to retrieve the inserted product ID")
+    }
+
+    fun findById(id: Long): Product? = try {
         namedParameterJdbcTemplate.queryForObject(
             SELECT_PRODUCT_BY_ID,
             MapSqlParameterSource().addValue("id", id),
@@ -34,7 +58,7 @@ class ProductDao(
                 p.creationDate, 
                 p.price, 
                 p.partNumber, 
-                p.manufactureCost, 
+                p.manufacturerCost, 
                 p.unitOfMeasure, 
                 p.ownerPassportID, 
                 pe.passportID, 
@@ -62,14 +86,14 @@ class ProductDao(
                 name = rs.getString("p_name"),
                 coordinates = rs.getString("coordinates").let {
                     val clean = it.removeSurrounding("(", ")")
-                    val parts = clean.split(", ").map { part -> part.toInt() }
+                    val parts = clean.split(",").map { part -> part.toInt() }
 
                     Coordinates(parts[0], parts[1])
                 },
                 creationDate = rs.getDate("creationDate").toLocalDate(),
                 price = rs.getLong("price"),
                 partNumber = rs.getString("partNumber"),
-                manufacturerCost = rs.getLong("manufactureCost"),
+                manufacturerCost = rs.getLong("manufacturerCost"),
                 unitOfMeasure = UnitOfMeasure.valueOf(rs.getString("unitOfMeasure")),
                 owner = owner
             )

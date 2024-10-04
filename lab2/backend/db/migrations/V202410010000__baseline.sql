@@ -31,7 +31,7 @@ CREATE TABLE Product
     creationDate    DATE                     NOT NULL,
     price           BIGINT CHECK (price > 0) NOT NULL,
     partNumber      VARCHAR CHECK (LENGTH(partNumber) >= 10 OR partNumber IS NULL),
-    manufactureCost BIGINT                   NOT NULL,
+    manufacturerCost BIGINT                   NOT NULL,
     unitOfMeasure   unit_of_measure          NOT NULL,
     ownerPassportID VARCHAR(44),
     FOREIGN KEY (ownerPassportID) REFERENCES Person (passportID)

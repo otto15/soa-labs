@@ -20,5 +20,8 @@ data class Coordinates(
 )
 
 enum class UnitOfMeasure {
-    KILOGRAMS, METERS, MILLILITERS, MILLIGRAMS,
+    KILOGRAMS,
+    METERS,
+    MILLILITERS,
+    MILLIGRAMS,
 }

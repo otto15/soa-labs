@@ -1,3 +1,3 @@
 package com.soa.products.exception
 
-class ProductNotFoundException(id: Int) : RuntimeException("Product not found with id=$id")
+class ProductNotFoundException(id: Long) : RuntimeException("Product not found with id=$id")
