@@ -2,6 +2,7 @@ package com.soa.products.service
 
 import com.soa.products.command.CreateProductCommand
 import com.soa.products.dao.ProductDao
+import com.soa.products.domain.Product
 import com.soa.products.exception.PersonNotFoundException
 import com.soa.products.exception.ProductNotFoundException
 import org.springframework.stereotype.Service
@@ -34,5 +35,10 @@ class ProductService(
 
     fun getTotalPrice(): Long {
         return productDao.getTotalPrice()
+    }
+
+    fun getProductWithMinPartNumber(): Product {
+        return productDao.findProductWithMinPartNumber()
+            ?: throw IllegalStateException("No product with a minimum partNumber found")
     }
 }

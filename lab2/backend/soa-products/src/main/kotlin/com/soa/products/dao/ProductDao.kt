@@ -68,6 +68,35 @@ class ProductDao(
             ?: 0L
     }
 
+    fun findProductWithMinPartNumber(): Product? {
+        val sql = """
+            SELECT 
+                p.id as p_id, 
+                p.name as p_name, 
+                p.coordinates, 
+                p.creationDate, 
+                p.price, 
+                p.partNumber, 
+                p.manufacturerCost, 
+                p.unitOfMeasure, 
+                p.ownerPassportID, 
+                pe.passportID, 
+                pe.name as pe_name, 
+                pe.eyeColor, 
+                pe.hairColor
+            FROM product p
+            LEFT JOIN person pe ON p.ownerPassportID = pe.passportID
+            WHERE p.partNumber = (SELECT MIN(partNumber) FROM product)
+        """.trimIndent()
+
+        return try {
+            namedParameterJdbcTemplate.queryForObject(sql, MapSqlParameterSource(), ROW_MAPPER)
+        } catch (e: EmptyResultDataAccessException) {
+            null
+        }
+    }
+
+
     companion object {
         private val SELECT_PRODUCT_BY_ID = """
             SELECT 

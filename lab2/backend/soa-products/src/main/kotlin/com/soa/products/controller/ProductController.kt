@@ -48,4 +48,8 @@ class ProductController(
         return ResponseEntity.ok(response)
     }
 
+    override fun getMinPartNumberProduct(): ResponseEntity<ProductTo> =
+        ResponseEntity.ok(
+            productService.getProductWithMinPartNumber().toProductTo()
+        )
 }
