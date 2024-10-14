@@ -1,12 +1,13 @@
 package com.soa.products.service
 
-import com.soa.products.command.CreateProductCommand
+import com.soa.products.service.command.CreateProductCommand
+import com.soa.products.service.command.UpdateProductCommand
 import com.soa.products.dao.ProductDao
 import com.soa.products.domain.Product
+import com.soa.products.domain.ProductSearchParams
+import com.soa.products.exception.ProductWithMinPartNumberNotFound
 import com.soa.products.exception.PersonNotFoundException
 import com.soa.products.exception.ProductNotFoundException
-import com.soa.products.transformer.toProductTo
-import generated.soa.products.dto.ProductTo
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -41,12 +42,26 @@ class ProductService(
 
     fun getProductWithMinPartNumber(): Product {
         return productDao.findProductWithMinPartNumber()
-            ?: throw IllegalStateException("No product with a minimum partNumber found")
+            ?: throw ProductWithMinPartNumberNotFound()
     }
 
-    fun getProductsWithManufacturerCostLessThan(cost: Long, page: Long, size: Long): List<ProductTo> {
+    fun getProductsWithManufacturerCostLessThan(cost: Long, page: Int, size: Int): List<Product> {
         val offset = (page - 1) * size
         return productDao.findProductsWithManufacturerCostLessThan(cost, offset, size)
-            .map { it: Product -> it.toProductTo() }
     }
+
+    @Transactional
+    fun updateProduct(updateProductCommand: UpdateProductCommand) {
+        updateProductCommand.ownerPassportId?.let {
+            if (!personService.existsById(it)) {
+                throw PersonNotFoundException(it)
+            }
+        }
+
+        if (!productDao.update(updateProductCommand)) {
+            throw ProductNotFoundException(updateProductCommand.id)
+        }
+    }
+
+    fun getProducts(productSearchParams: ProductSearchParams): List<Product> = productDao.find(productSearchParams)
 }

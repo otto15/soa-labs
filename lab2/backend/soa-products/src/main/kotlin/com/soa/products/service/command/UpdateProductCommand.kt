@@ -1,9 +1,10 @@
-package com.soa.products.command
+package com.soa.products.service.command
 
 import com.soa.products.domain.Coordinates
 import com.soa.products.domain.UnitOfMeasure
 
-data class CreateProductCommand(
+data class UpdateProductCommand(
+    val id: Long,
     val name: String,
     val coordinates: Coordinates,
     val price: Long,

@@ -1,6 +1,6 @@
 package com.soa.products.service
 
-import com.soa.products.command.CreatePersonCommand
+import com.soa.products.service.command.CreatePersonCommand
 import com.soa.products.dao.PersonDao
 import org.springframework.stereotype.Service
 

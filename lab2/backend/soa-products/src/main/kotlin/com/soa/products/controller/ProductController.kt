@@ -1,17 +1,23 @@
 package com.soa.products.controller
 
 import com.soa.products.service.ProductService
-import com.soa.products.transformer.toCreateUpdateProductCommand
+import com.soa.products.transformer.toCreateProductCommand
 import com.soa.products.transformer.toProductTo
+import com.soa.products.transformer.toUpdateProductCommand
+import com.soa.products.transformer.transform
 import generated.soa.products.controller.ProductApi
 import generated.soa.products.dto.CreateProductResponseTo
 import generated.soa.products.dto.CreateUpdateProductRequestTo
+import generated.soa.products.dto.CriteriaTo
+import generated.soa.products.dto.FilterOperatorTo
 import generated.soa.products.dto.ProductPriceSumTo
 import generated.soa.products.dto.ProductTo
+import generated.soa.products.dto.SortTypeTo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RestController
+import java.math.BigDecimal
 
 @CrossOrigin(origins = ["*"])
 @RestController
@@ -22,20 +28,15 @@ class ProductController(
         ResponseEntity.status(HttpStatus.CREATED)
             .body(
                 CreateProductResponseTo(
-                    productService.createProduct(createUpdateProductRequestTo.toCreateUpdateProductCommand())
+                    productService.createProduct(createUpdateProductRequestTo.toCreateProductCommand())
                 )
             )
 
-    override fun getProductById(id: Long): ResponseEntity<ProductTo> =
-        ResponseEntity.ok(
-            productService.getProduct(id).toProductTo()
-        )
+    override fun getProductById(id: Long): ResponseEntity<ProductTo> = ResponseEntity.ok(
+        productService.getProduct(id).toProductTo()
+    )
 
     override fun deleteProductById(id: Long): ResponseEntity<Unit> {
-        if (id < 0) {
-            return ResponseEntity.badRequest().build()
-        }
-
         productService.deleteProduct(id)
         return ResponseEntity.noContent().build()
     }
@@ -43,25 +44,46 @@ class ProductController(
     override fun getAllProductPricesSum(): ResponseEntity<ProductPriceSumTo> {
         val totalSum = productService.getTotalPrice()
 
-        val response = ProductPriceSumTo(sum = java.math.BigDecimal.valueOf(totalSum))
-
-        return ResponseEntity.ok(response)
+        return ResponseEntity.ok(ProductPriceSumTo(BigDecimal.valueOf(totalSum)))
     }
 
-    override fun getMinPartNumberProduct(): ResponseEntity<ProductTo> =
-        ResponseEntity.ok(
-            productService.getProductWithMinPartNumber().toProductTo()
-        )
+    override fun getMinPartNumberProduct(): ResponseEntity<ProductTo> = ResponseEntity.ok(
+        productService.getProductWithMinPartNumber().toProductTo()
+    )
 
     override fun getProductsWithmanufacturerCostLessThan(
         cost: Long,
-        page: Long,
-        size: Long
+        page: Int,
+        size: Int
     ): ResponseEntity<List<ProductTo>> {
-        if (cost < 0) {
-            return ResponseEntity.badRequest().build()
-        }
+        return ResponseEntity.ok(
+            productService.getProductsWithManufacturerCostLessThan(cost, page, size)
+                .map { it.toProductTo() }
+        )
+    }
 
-        return ResponseEntity.ok(productService.getProductsWithManufacturerCostLessThan(cost, page, size))
+    override fun updateProductById(
+        id: Long,
+        createUpdateProductRequestTo: CreateUpdateProductRequestTo
+    ): ResponseEntity<Unit> {
+        productService.updateProduct(createUpdateProductRequestTo.toUpdateProductCommand(id))
+
+        return ResponseEntity.ok().build()
+    }
+
+    override fun getProducts(
+        page: Int,
+        size: Int,
+        sortCriteriaList: List<CriteriaTo>?,
+        sortTypeList: List<SortTypeTo>?,
+        filterCriteriaList: List<CriteriaTo>?,
+        filterOperators: List<FilterOperatorTo>?,
+        filterValues: List<String>?
+    ): ResponseEntity<List<ProductTo>> {
+        return ResponseEntity.ok(
+            productService.getProducts(
+                transform(page, size, sortCriteriaList, sortTypeList, filterCriteriaList, filterOperators, filterValues)
+            ).map { it.toProductTo() }
+        )
     }
 }

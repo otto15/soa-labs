@@ -1,4 +1,4 @@
-package com.soa.products.command
+package com.soa.products.service.command
 
 import com.soa.products.domain.Color
 

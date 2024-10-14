@@ -143,38 +143,34 @@ components:
         - BLACK
         - ORANGE
 
-    Criteria:
+    CriteriaTo:
       type: string
       enum:
+        - ID
         - NAME
+        - COORDINATES
         - CREATION_DATE
         - PRICE
-        - MANUFACTURE_COST
+        - PART_NUMBER
+        - MANUFACTURER_COST
+        - UNIT_OF_MEASURE
+        - OWNER_PASSPORT_ID
 
-    SortType:
+    SortTypeTo:
       type: string
       enum:
         - ASC
         - DESC
 
-    FilterOperator:
+    FilterOperatorTo:
       type: string
       enum:
         - EQUAL
         - LESS
-        - MORE
+        - GREATER
         - LESS_OR_EQUAL
-        - MORE_OR_EQUAL
-
-    UpdateProduct404ResponseTo:
-      type: object
-      required: [ code ]
-      properties:
-        code:
-          type: string
-          enum:
-            - PRODUCT
-            - OWNER
+        - GREATER_OR_EQUAL
+        - SAME
 
     ProductPriceSumTo:
       type: object
@@ -185,8 +181,19 @@ components:
 
     ApiErrorTo:
       type: object
-      required: [ message, timestamp ]
+      required: [ timestamp ]
       properties:
+        message:
+          type: string
+        timestamp:
+          type: string
+
+    CreatePerson409ErrorTo:
+      type: object
+      required: [ passportID, timestamp ]
+      properties:
+        passportID:
+          type: string
         message:
           type: string
         timestamp:
