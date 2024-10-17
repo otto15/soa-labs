@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
+import java.math.BigDecimal
 
 @Repository
 class ProductDao(
@@ -113,12 +114,17 @@ class ProductDao(
         val parameterSource = MapSqlParameterSource()
         val sql: String = buildSelectQueryAndExtendParameterSource(parameterSource, params)
 
-        println(sql)
-
         return namedParameterJdbcTemplate.query(
             sql,
             parameterSource,
             ROW_MAPPER
+        )
+    }
+
+    fun updateProductPrices(coef: BigDecimal) {
+        namedParameterJdbcTemplate.update(
+            UPDATE_PRODUCT_PRICE,
+            MapSqlParameterSource().addValue("coef", coef)
         )
     }
 
@@ -341,6 +347,11 @@ class ProductDao(
             FROM product p
             LEFT JOIN person pe ON p.ownerPassportID = pe.passportID
             WHERE p.partNumber = (SELECT MIN(partNumber) FROM product)
+        """.trimIndent()
+
+        private val UPDATE_PRODUCT_PRICE = """
+            UPDATE product
+            SET price = price * :coef
         """.trimIndent()
 
         private val ROW_MAPPER = RowMapper { rs, _ ->

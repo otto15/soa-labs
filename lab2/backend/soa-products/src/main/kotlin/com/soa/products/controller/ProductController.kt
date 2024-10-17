@@ -1,5 +1,6 @@
 package com.soa.products.controller
 
+import com.soa.products.domain.PriceOperation
 import com.soa.products.service.ProductService
 import com.soa.products.transformer.toCreateProductCommand
 import com.soa.products.transformer.toProductTo
@@ -10,6 +11,7 @@ import generated.soa.products.dto.CreateProductResponseTo
 import generated.soa.products.dto.CreateUpdateProductRequestTo
 import generated.soa.products.dto.CriteriaTo
 import generated.soa.products.dto.FilterOperatorTo
+import generated.soa.products.dto.PriceOperationTo
 import generated.soa.products.dto.ProductPriceSumTo
 import generated.soa.products.dto.ProductTo
 import generated.soa.products.dto.SortTypeTo
@@ -51,7 +53,7 @@ class ProductController(
         productService.getProductWithMinPartNumber().toProductTo()
     )
 
-    override fun getProductsWithmanufacturerCostLessThan(
+    override fun getProductsWithManufacturerCostLessThan(
         cost: Long,
         page: Int,
         size: Int
@@ -85,5 +87,14 @@ class ProductController(
                 transform(page, size, sortCriteriaList, sortTypeList, filterCriteriaList, filterOperators, filterValues)
             ).map { it.toProductTo() }
         )
+    }
+
+    override fun updatePricesOfAllProducts(
+        priceOperation: PriceOperationTo,
+        percent: BigDecimal
+    ): ResponseEntity<Unit> {
+        productService.updatePrices(PriceOperation.valueOf(priceOperation.name), percent)
+
+        return ResponseEntity.ok().build()
     }
 }

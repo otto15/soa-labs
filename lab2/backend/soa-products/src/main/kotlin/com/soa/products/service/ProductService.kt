@@ -3,6 +3,7 @@ package com.soa.products.service
 import com.soa.products.service.command.CreateProductCommand
 import com.soa.products.service.command.UpdateProductCommand
 import com.soa.products.dao.ProductDao
+import com.soa.products.domain.PriceOperation
 import com.soa.products.domain.Product
 import com.soa.products.domain.ProductSearchParams
 import com.soa.products.exception.ProductWithMinPartNumberNotFound
@@ -10,6 +11,7 @@ import com.soa.products.exception.PersonNotFoundException
 import com.soa.products.exception.ProductNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 
 @Service
 class ProductService(
@@ -64,4 +66,19 @@ class ProductService(
     }
 
     fun getProducts(productSearchParams: ProductSearchParams): List<Product> = productDao.find(productSearchParams)
+
+    fun updatePrices(priceOperation: PriceOperation, percentage: BigDecimal) {
+        val coef = when (priceOperation) {
+            PriceOperation.INCREASE -> BigDecimal.ONE.plus(percentage.divide(BigDecimal(100)))
+            PriceOperation.DECREASE -> {
+                if (percentage > BigDecimal(100)) {
+                    throw IllegalArgumentException("Decrease percent must be less than 100")
+                }
+
+                BigDecimal.ONE.minus(percentage.divide(BigDecimal(100)))
+            }
+        }
+
+        productDao.updateProductPrices(coef)
+    }
 }

@@ -132,6 +132,12 @@ components:
         - MILLILITERS
         - MILLIGRAMS
 
+    PriceOperationTo:
+      type: string
+      enum:
+        - INCREASE
+        - DECREASE
+
     ColorTo:
       type: string
       enum:
