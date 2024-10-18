@@ -1,7 +1,10 @@
 <div class="container">
     <h3>Продукт по ID</h3>
     <div class="row">
-        <tui-input-number [formControl]="idControl">
+        <tui-input-number 
+            [formControl]="idControl"
+            [min]="1"
+        >
             Введите ID
             <input
                 tuiTextfieldLegacy

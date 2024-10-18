@@ -26,7 +26,7 @@ export class PersonService {
 
         return of([
             {
-                name: "Татьяна Маркина",
+                name: "Тауфик Алиев",
                 passportID: "1337 228",
                 hairColor: Color.Black,
                 eyeColor: Color.Green

@@ -27,8 +27,8 @@ export class ProductsLessThanComponent {
   private readonly alertService = inject(TuiAlertService);
   private readonly dialogService = inject(TuiDialogService);
 
-  protected readonly manufactureCostControl = new FormControl<number>(0);
-  protected readonly page = new FormControl<number>(0);
+  protected readonly manufactureCostControl = new FormControl<number>(1);
+  protected readonly page = new FormControl<number>(1);
   protected readonly size = new FormControl<number>(10);
 
   protected readonly products$ = new BehaviorSubject<Product[] | null>(null);

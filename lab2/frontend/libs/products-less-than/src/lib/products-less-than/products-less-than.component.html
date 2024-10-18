@@ -1,7 +1,10 @@
 <div class="container">
     <h3>Меньше чем</h3>
     <div class="row">
-        <tui-input-number [formControl]="manufactureCostControl">
+        <tui-input-number 
+            [formControl]="manufactureCostControl"
+            [min]="1"
+        >
             Введите manufactureCost
             <input
                 tuiTextfieldLegacy
@@ -9,7 +12,10 @@
         </tui-input-number>
     </div>
     <div class="row">
-        <tui-input-number [formControl]="page">
+        <tui-input-number 
+            [formControl]="page"
+            [min]="1"
+        >
             Введите page
             <input
                 tuiTextfieldLegacy
@@ -17,7 +23,10 @@
         </tui-input-number>
     </div>
     <div class="row">
-        <tui-input-number [formControl]="size">
+        <tui-input-number 
+            [formControl]="size"
+            [min]="1"
+        >
             Введите pageSize
             <input
                 tuiTextfieldLegacy
@@ -28,6 +37,11 @@
         <button 
             tuiButton
             size="m"
+            [disabled]="
+                !manufactureCostControl.valid &&
+                !page.valid &&
+                !size.valid
+            "
             (click)="getProducts(productsView)"
         >
             Получить

@@ -61,7 +61,10 @@
             </tui-input>
         </div>
         <div class="row">
-            <tui-input formControlName="passportId">
+            <tui-input 
+                formControlName="passportId"
+                [maxlength]="44"
+            >
                 Введите номер паспорта
                 <input
                     tuiTextfieldLegacy

@@ -46,6 +46,7 @@
     <div class="row">
         <tui-input-number 
             formControlName="manufactureCost"
+            [min]="1"
             [step]=1
             [tuiNumberFormat]="{precision: 0}"
         >

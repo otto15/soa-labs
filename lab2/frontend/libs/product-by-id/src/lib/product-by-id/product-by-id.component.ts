@@ -30,14 +30,18 @@ export class ProductByIdComponent {
 
   protected readonly product$ = new BehaviorSubject<Product | null>(null);
 
-  protected readonly idControl = new FormControl<number>(0);
+  protected readonly idControl = new FormControl<number>(1);
 
   protected getById() {
+    console.log(this.idControl.value)
     this.productsService.getById(this.idControl.value || 0).subscribe({
       next: (product: Product) => {
         this.product$.next(product);
       },
       error: () => {
+        console.log('ok')
+        this.product$.next(null);
+    
         this.alertService.open("Не удалось получить продукт по ID", {
           appearance: "error",
           label: "Ошибка!"

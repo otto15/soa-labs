@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { API_PRODUCTS_PREFIX, BASE_URL } from "../tokens";
-import { CreateProductPayload, PricesSum, Product, UnitOfMeasure } from "../models";
+import { CreateProductPayload, Person, PricesSum, Product, UnitOfMeasure } from "../models";
 
 @Injectable({
     providedIn: 'root'
@@ -23,47 +23,16 @@ export class ProductsService {
         productId: number, 
         payload: CreateProductPayload
     ): Observable<number> {
-        // return this.http.put<number>(
-        //     `${this.baseUrl}/${this.apiProductsPrefix}/${productId}`,
-        //     payload
-        // );
-
-        return of(1);
+        return this.http.put<number>(
+            `${this.baseUrl}/${this.apiProductsPrefix}/${productId}`,
+            payload
+        );
     }
 
     public getProducts(): Observable<Product[]> {
-        // return this.http.get<Person[]>(
-        //     `${this.baseUrl}/${this.apiProductsPrefix}`,
-        // );
-
-        // price: number;
-        // name: string;
-        // coordinates: Coordinates;
-        // manufactureCost: number;
-        // partNumber: string;
-        // id: number;
-        // owner: Owner;
-        // creationDate: string;
-
-        return of([
-            {
-                price: 10,
-                name: 'Тестовый продукт',
-                coordinates: {
-                    x: 1,
-                    y: 2,
-                },
-                manufacturerCost: 10,
-                partNumber: '123456271782',
-                id: 1,
-                owner: {
-                    name: 'Татьяна Маркина',
-                    passportID: '1337228228',
-                },
-                createdDate: '2024-06-09',
-                unitOfMeasure: UnitOfMeasure.Meters,
-            }
-        ]);
+        return this.http.get<Product[]>(
+            `${this.baseUrl}/${this.apiProductsPrefix}`,
+        );
     }
 
     public deleteProduct(productId: number): Observable<void> {

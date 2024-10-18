@@ -68,7 +68,7 @@ export class ProductsPageComponent {
     coordinateY: new FormControl<number>(0),
     price: new FormControl<number>(1),
     partNumber: new FormControl<string | null>(null, [moreTenStringValidator()]),
-    manufactureCost: new FormControl<number>(0),
+    manufactureCost: new FormControl<number>(1),
     unitOfMeasure: new FormControl<string>('Килограммы'),
     personPassportId: new FormControl<string | null>(null),
   });

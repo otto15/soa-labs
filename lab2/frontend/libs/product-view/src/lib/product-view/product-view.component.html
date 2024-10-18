@@ -1,6 +1,6 @@
 @if (product(); as product) {
     <p>ID: {{ product.id }}</p>
-    <p>Название: {{ product.name }}</p>
+    <p>Название: {{ product.name || "" }}</p>
     <p>Цена: {{ product.price }}</p>
     <p>Артикул: {{ product.partNumber }}</p>
     <p>Координаты: ({{ product.coordinates.x}}, {{product.coordinates.y}})</p>
