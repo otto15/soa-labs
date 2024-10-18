@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: products
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - soa
+
+  flyway:
+    image: flyway/flyway:latest
+    depends_on:
+      - postgres
+    command: migrate
+    environment:
+      FLYWAY_URL: jdbc:postgresql://postgres/products
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: postgres
+      FLYWAY_LOCATIONS: filesystem:/flyway/sql
+    volumes:
+      - ./db/migrations:/flyway/sql
+    networks:
+      - soa
+
+  products:
+    container_name: products
+    image: openjdk:17-oracle
+    volumes:
+      - ./soa-products/build/libs/products-0.0.1-SNAPSHOT.jar:/products.jar
+    command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "products.jar" ]
+    ports:
+      - "1516:1516"
+    networks:
+      - soa
+
+  ebay:
+    container_name: ebay
+    image: openjdk:17-oracle
+    volumes:
+      - ./soa-ebay/build/libs/ebay-0.0.1-SNAPSHOT.jar:/ebay.jar
+    command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "ebay.jar" ]
+    ports:
+      - "1515:1515"
+    networks:
+      - soa
+
+networks:
+  soa:
+    driver: bridge
