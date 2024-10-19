@@ -6,7 +6,14 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuil
 import org.apache.hc.client5.http.io.HttpClientConnectionManager
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory
 import org.apache.hc.core5.ssl.SSLContextBuilder
+import org.eclipse.jetty.server.HttpConnectionFactory
+import org.eclipse.jetty.server.SecureRequestCustomizer
+import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.server.ServerConnector
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.web.embedded.jetty.JettyServerCustomizer
+import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory
+import org.springframework.boot.web.server.WebServerFactoryCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.Resource
@@ -51,5 +58,24 @@ class ApplicationConfiguration {
         val requestFactory: ClientHttpRequestFactory = HttpComponentsClientHttpRequestFactory(httpClient)
 
         return RestTemplate(requestFactory)
+    }
+
+    @Bean
+    fun disableSniHostCheck(): WebServerFactoryCustomizer<JettyServletWebServerFactory>? {
+        return WebServerFactoryCustomizer<JettyServletWebServerFactory> { factory: JettyServletWebServerFactory ->
+            factory.addServerCustomizers(
+                JettyServerCustomizer { server: Server ->
+                    for (connector in server.connectors) {
+                        if (connector is ServerConnector) {
+                            val connectionFactory: HttpConnectionFactory = connector
+                                .getConnectionFactory(HttpConnectionFactory::class.java)
+                            val secureRequestCustomizer: SecureRequestCustomizer =
+                                connectionFactory.httpConfiguration
+                                    .getCustomizer(SecureRequestCustomizer::class.java)
+                            secureRequestCustomizer.isSniHostCheck = false
+                        }
+                    }
+                })
+        }
     }
 }
