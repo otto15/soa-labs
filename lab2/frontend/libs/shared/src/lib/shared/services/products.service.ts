@@ -1,14 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { API_PRODUCTS_PREFIX, BASE_URL } from "../tokens";
+import { API_PRODUCTS_PREFIX, BASE_URL, BASE_URL_PRODUCTS } from "../tokens";
 import { CreateProductPayload, Person, PricesSum, Product, UnitOfMeasure } from "../models";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProductsService {
-    private readonly baseUrl = inject(BASE_URL);
+    private readonly baseUrl = inject(BASE_URL_PRODUCTS);
     private readonly apiProductsPrefix = inject(API_PRODUCTS_PREFIX);
     private readonly http = inject(HttpClient);
 
