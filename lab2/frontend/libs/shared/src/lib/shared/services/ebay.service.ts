@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { BASE_URL, API_EBAY_PREFIX, BASE_URL_EBAY } from "../tokens";
-import { Observable, of } from "rxjs";
+import { API_EBAY_PREFIX, BASE_URL_EBAY } from "../tokens";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'

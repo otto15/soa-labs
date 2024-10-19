@@ -1,14 +1,14 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
-import { API_PERSON_PREFIX, BASE_URL } from "../tokens";
+import { API_PERSON_PREFIX, BASE_URL_PRODUCTS } from "../tokens";
 import { Color, Person } from "../models";
 
 @Injectable({
     providedIn: 'root'
 })
 export class PersonService {
-    private readonly baseUrl = inject(BASE_URL);
+    private readonly baseUrl = inject(BASE_URL_PRODUCTS);
     private readonly apiPersonPrefix = inject(API_PERSON_PREFIX);
     private readonly http = inject(HttpClient);
 
