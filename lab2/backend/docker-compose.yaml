@@ -28,7 +28,7 @@ services:
 
   products:
     container_name: products
-    image: openjdk:17-oracle
+    image: openjdk:21-oracle
     volumes:
       - ./soa-products/build/libs/products-0.0.1-SNAPSHOT.jar:/products.jar
     command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "products.jar" ]
@@ -39,7 +39,7 @@ services:
 
   ebay:
     container_name: ebay
-    image: openjdk:17-oracle
+    image: openjdk:21-oracle
     volumes:
       - ./soa-ebay/build/libs/ebay-0.0.1-SNAPSHOT.jar:/ebay.jar
     command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "ebay.jar" ]
