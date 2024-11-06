@@ -9,6 +9,8 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    networks:
+      - soa-network
 
   flyway:
     image: flyway/flyway:latest
@@ -21,4 +23,11 @@ services:
       FLYWAY_PASSWORD: postgres
       FLYWAY_LOCATIONS: filesystem:/flyway/sql
     volumes:
-      - ./migrations:/flyway/sql
+      - ./psql-migrations:/flyway/sql
+    networks:
+      - soa-network
+
+networks:
+    soa-network:
+      driver: bridge
+      name: soa-network

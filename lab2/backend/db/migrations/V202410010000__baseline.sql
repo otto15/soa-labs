@@ -39,3 +39,11 @@ CREATE TABLE Product
 
 ALTER TABLE Product
     ADD CONSTRAINT unique_partNumber UNIQUE (partNumber);
+
+CREATE TABLE access_log (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP NOT NULL DEFAULT NOW(),
+    request_method VARCHAR(10) NOT NULL,
+    request_url TEXT NOT NULL,
+    status VARCHAR(3) NOT NULL
+);
