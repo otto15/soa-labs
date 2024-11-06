@@ -23,7 +23,7 @@ services:
       FLYWAY_PASSWORD: postgres
       FLYWAY_LOCATIONS: filesystem:/flyway/sql
     volumes:
-      - ./psql-migrations:/flyway/sql
+      - ./migrations:/flyway/sql
     networks:
       - soa-network
 
