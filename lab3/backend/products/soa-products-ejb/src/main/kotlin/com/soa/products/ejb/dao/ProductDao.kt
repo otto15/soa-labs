@@ -13,6 +13,7 @@ import com.soa.products.ejb.service.command.CreateProductCommand
 import com.soa.products.ejb.service.command.UpdateProductCommand
 import jakarta.annotation.Resource
 import jakarta.ejb.Stateless
+import org.jboss.ejb3.annotation.Pool
 import java.math.BigDecimal
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -21,6 +22,7 @@ import java.sql.SQLException
 import javax.sql.DataSource
 
 @Stateless
+@Pool("products-pool")
 open class ProductDao {
 
     @Resource(lookup = "java:/PostgresDS")
@@ -283,12 +285,7 @@ open class ProductDao {
         val conditions = params.filterParams.map {
             val fieldName = SEARCH_FIELD_AND_DB_FIELD_NAME_MAPPING[it.searchField]!!
             val paramPlaceholder = when (it.searchField) {
-                SearchField.COORDINATES -> {
-                    val coordinates = it.value as Coordinates
-
-                    "point(?, ?)"
-                }
-
+                SearchField.COORDINATES -> "point(?, ?)"
                 else -> "?"
             }
 

@@ -12,9 +12,11 @@ import com.soa.products.ejb.exception.PersonNotFoundException
 import com.soa.products.ejb.exception.ProductNotFoundException
 import jakarta.ejb.Stateless
 import jakarta.inject.Inject
+import org.jboss.ejb3.annotation.Pool
 import java.math.BigDecimal
 
 @Stateless
+@Pool("products-pool")
 open class ProductServiceImpl : ProductService {
     @Inject
     private lateinit var personDao: PersonDao

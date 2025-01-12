@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -39,7 +40,7 @@ dependencies {
 
 configurations {
 	configureEach {
-		exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+		exclude(group = "ch.qos.logback", module = "logback-classic")
 	}
 }
 

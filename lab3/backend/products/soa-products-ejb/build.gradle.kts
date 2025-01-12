@@ -32,6 +32,7 @@ dependencies {
     implementation("jakarta.ejb:jakarta.ejb-api:4.0.1")
     implementation("jakarta.annotation:jakarta.annotation-api:2.0.0")
     implementation("jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0")
+    implementation("org.jboss.ejb3:jboss-ejb3-ext-api:2.4.0.Final")
     testImplementation(kotlin("test"))
 }
 

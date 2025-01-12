@@ -4,12 +4,14 @@ import com.soa.products.ejb.exception.PersonDuplicationException
 import com.soa.products.ejb.service.command.CreatePersonCommand
 import jakarta.annotation.Resource
 import jakarta.ejb.Stateless
+import org.jboss.ejb3.annotation.Pool
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.SQLException
 import javax.sql.DataSource
 
 @Stateless
+@Pool("products-pool")
 open class PersonDao {
 
     @Resource(lookup = "java:/PostgresDS")

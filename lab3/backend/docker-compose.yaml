@@ -1,5 +1,17 @@
 version: "3.9"
 services:
+  consul-server:
+    image: hashicorp/consul:1.10.0
+    container_name: consul-server
+    restart: always
+    volumes:
+      - ./products/consul/server.json:/consul/config/server.json:ro
+    networks:
+      - soa
+    ports:
+      - "8500:8500"
+    command: "agent"
+
   products-ejb:
     build:
       context: products/soa-products-ejb
@@ -10,14 +22,29 @@ services:
     networks:
       - soa
 
-  products:
-    container_name: products
+  products-1:
+    container_name: products-1
     image: openjdk:21-oracle
     volumes:
       - ./products/soa-products/build/libs/soa-products-0.0.1-SNAPSHOT.jar:/products.jar
     command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "products.jar" ]
     ports:
       - "1516:1516"
+    environment:
+      SERVICE_ID: products-1
+    networks:
+      - soa
+
+  products-2:
+    container_name: products-2
+    image: openjdk:21-oracle
+    volumes:
+      - ./products/soa-products/build/libs/soa-products-0.0.1-SNAPSHOT.jar:/products.jar
+    command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "products.jar" ]
+    ports:
+      - "1517:1516"
+    environment:
+      SERVICE_ID: products-2
     networks:
       - soa
 
