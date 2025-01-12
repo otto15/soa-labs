@@ -26,7 +26,7 @@ services:
     image: openjdk:21-oracle
     volumes:
       - ./soa-ebay/build/libs/ebay-0.0.1-SNAPSHOT.jar:/ebay.jar
-    command: [ "java", "-jar", "-Dspring.profiles.active=mssql,cloud", "ebay.jar" ]
+    command: [ "/bin/sh", "-c", "sleep 30 && java -jar -Dspring.profiles.active=mssql ebay.jar" ]
     ports:
       - "1515:1515"
     networks:
@@ -37,7 +37,7 @@ services:
     image: openjdk:21-oracle
     volumes:
       - ./soa-ebay/build/libs/ebay-0.0.1-SNAPSHOT.jar:/ebay.jar
-    command: [ "java", "-jar", "-Dspring.profiles.active=psql,cloud", "ebay.jar" ]
+    command: [ "/bin/sh", "-c", "sleep 30 && java -jar -Dspring.profiles.active=psql ebay.jar" ]
     ports:
       - "1514:1515"
     networks:
