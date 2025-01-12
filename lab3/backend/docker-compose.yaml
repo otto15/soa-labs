@@ -51,6 +51,16 @@ services:
     ports:
       - "8095:8095"
 
+  eureka-server:
+    build: cloud/eureka-server
+    container_name: eureka-server
+    depends_on:
+      - config-server
+    networks:
+      - soa
+    ports:
+      - "8761:8761"
+
 networks:
   soa:
     name: soa-network
