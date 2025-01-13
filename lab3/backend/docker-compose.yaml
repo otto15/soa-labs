@@ -48,28 +48,6 @@ services:
     networks:
       - soa
 
-  ebay-mssql:
-    container_name: ebay-mssql
-    image: openjdk:21-oracle
-    volumes:
-      - ./soa-ebay/build/libs/ebay-0.0.1-SNAPSHOT.jar:/ebay.jar
-    command: [ "/bin/sh", "-c", "sleep 30 && java -jar -Dspring.profiles.active=mssql ebay.jar" ]
-    ports:
-      - "1515:1515"
-    networks:
-      - soa
-
-  ebay-psql:
-    container_name: ebay-psql
-    image: openjdk:21-oracle
-    volumes:
-      - ./soa-ebay/build/libs/ebay-0.0.1-SNAPSHOT.jar:/ebay.jar
-    command: [ "/bin/sh", "-c", "sleep 30 && java -jar -Dspring.profiles.active=psql ebay.jar" ]
-    ports:
-      - "1514:1515"
-    networks:
-      - soa
-
   config-server:
     build: cloud/config-server
     container_name: config-server
