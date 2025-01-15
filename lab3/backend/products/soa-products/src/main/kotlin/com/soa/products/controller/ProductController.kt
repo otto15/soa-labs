@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.RestController
 import java.math.BigDecimal
 
-@CrossOrigin(origins = ["*"])
 @RestController
 class ProductController(
     private val productService: ProductService,
