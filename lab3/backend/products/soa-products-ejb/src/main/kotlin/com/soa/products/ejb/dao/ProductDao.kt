@@ -265,7 +265,7 @@ open class ProductDao {
         }
 
         val coords = rs.getString("coordinates").removeSurrounding("(", ")").split(",").let {
-            Coordinates(it[0].toInt(), it[1].toInt())
+            Coordinates(it[0].toDouble().toInt(), it[1].toDouble().toInt())
         }
 
         return Product(
