@@ -41,6 +41,7 @@ spring:
           uri: lb:https://soa-products
           predicates:
             - Path=/products/**
+            - Path=/persons/**
         - id: soa-ebay-decrease
           uri: lb:https://soa-products
           predicates:
