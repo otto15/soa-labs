@@ -66,6 +66,14 @@ services:
     ports:
       - "8761:8761"
 
+  api-gateway:
+    build: cloud/api-gateway
+    container_name: api-gateway
+    networks:
+      - soa
+    ports:
+      - "9912:9912"
+
 networks:
   soa:
     name: soa-network
