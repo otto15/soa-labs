@@ -30,7 +30,7 @@ class ConsulRegistrationService(
                 "Port": $servicePort,
                 "Check": {
                     "HTTP": "http://$serviceId:$servicePort/actuator/health",
-                    "Interval": "10s"
+                    "Interval": "1s"
                 }
             }
         """.trimIndent()

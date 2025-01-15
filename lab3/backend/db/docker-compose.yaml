@@ -5,8 +5,8 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_DB: products
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: gadelsha
+      POSTGRES_PASSWORD: gadelsha_chistai
     ports:
       - "5432:5432"
     networks:
@@ -19,8 +19,8 @@ services:
     command: migrate
     environment:
       FLYWAY_URL: jdbc:postgresql://postgres/products
-      FLYWAY_USER: postgres
-      FLYWAY_PASSWORD: postgres
+      FLYWAY_USER: gadelsha
+      FLYWAY_PASSWORD: gadelsha_chistai
       FLYWAY_LOCATIONS: filesystem:/flyway/sql
     volumes:
       - ./migrations:/flyway/sql

@@ -139,7 +139,7 @@
                     <connection-url>jdbc:postgresql://postgres:5432/products</connection-url>
                     <driver-class>org.postgresql.Driver</driver-class>
                     <driver>postgresql-42.7.3.jar</driver>
-                    <security user-name="postgres" password="postgres"/>
+                    <security user-name="gadelsha" password="gadelsha_chistai"/>
                     <validation>
                         <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
                         <validate-on-match>true</validate-on-match>
