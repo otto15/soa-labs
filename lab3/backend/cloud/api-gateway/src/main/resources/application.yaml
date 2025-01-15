@@ -25,6 +25,12 @@ spring:
       eureka:
         enabled: true
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       httpclient:
         ssl:
           use-insecure-trust-manager: true
