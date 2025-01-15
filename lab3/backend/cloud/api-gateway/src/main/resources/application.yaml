@@ -7,19 +7,15 @@ server:
     key-store-password: 123456
     key-alias: soa
 
-trust:
-  store: classpath:keystore/soa.p12
-  store.password: 123456
-
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
 
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    reactor.netty.http.client: DEBUG
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: DEBUG
+#    reactor.netty.http.client: DEBUG
 
 spring:
   application:
@@ -57,3 +53,15 @@ spring:
             - Path=/price/increase/{increasePercent}
           filters:
             - RewritePath=/price/increase/(?<increasePercent>.*), /products/prices?percent=${increasePercent}&priceOperation=INCREASE
+
+soa-products:
+  ribbon:
+    IsSecure: true
+
+soa-ebay-increase:
+  ribbon:
+    IsSecure: true
+
+soa-ebay-decrease:
+  ribbon:
+    IsSecure: true
