@@ -45,14 +45,12 @@ spring:
             - Path=/price/decrease/{decreasePercent}
           filters:
             - RewritePath=/price/decrease/(?<decreasePercent>.*), /products/prices?percent=${decreasePercent}&priceOperation=DECREASE
-            - ModifyRequestBody=PUT
         - id: soa-ebay-increase
           uri: lb:https://soa-products
           predicates:
             - Path=/price/increase/{increasePercent}
           filters:
             - RewritePath=/price/increase/(?<increasePercent>.*), /products/prices?percent=${increasePercent}&priceOperation=INCREASE
-            - ModifyRequestBody=PUT
 
 soa-products:
   ribbon:
