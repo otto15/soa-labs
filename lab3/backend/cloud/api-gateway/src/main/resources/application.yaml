@@ -1,10 +1,20 @@
 server:
   port: 9912
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/soa.p12
+    key-store-password: 123456
+    key-alias: soa
+
+trust:
+  store: classpath:keystore/soa.p12
+  store.password: 123456
 
 eureka:
   client:
     service-url:
-      defaultZone: http://0.0.0.0:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka/
 
 logging:
   level:
@@ -18,8 +28,6 @@ spring:
     ribbon:
       eureka:
         enabled: true
-      soa-ebay:
-        IsSecure: true
     gateway:
       globalcors:
         corsConfigurations:
@@ -34,17 +42,17 @@ spring:
         response-timeout: 5s
       routes:
         - id: soa-products
-          uri: lb:http://soa-products
+          uri: lb:https://soa-products
           predicates:
             - Path=/products/**
         - id: soa-ebay-decrease
-          uri: lb:http://soa-products
+          uri: lb:https://soa-products
           predicates:
             - Path=/price/decrease/{decreasePercent}
           filters:
             - RewritePath=/price/decrease/(?<decreasePercent>.*), /products/prices?percent=${decreasePercent}&priceOperation=DECREASE
         - id: soa-ebay-increase
-          uri: lb:http://soa-products
+          uri: lb:https://soa-products
           predicates:
             - Path=/price/increase/{increasePercent}
           filters:
