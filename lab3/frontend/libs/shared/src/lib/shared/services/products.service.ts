@@ -68,4 +68,28 @@ export class ProductsService {
             `${this.baseUrl}/${this.apiProductsPrefix}/${id}`,
         );
     }
+
+    public getProductsWithSettings(
+        page: number, 
+        size: number, 
+        sortFields: string[], 
+        sortCriteria: string[],
+        filterCriteria: string[],
+        filterOperators: string[],
+        filterValues: string[],
+    ): Observable<Product[]> {
+        let baseString = `${this.baseUrl}/${this.apiProductsPrefix}?page=${page}&size=${size}`;
+
+        if (sortFields.length > 0) {
+            baseString += `&sortCriteriaList=${sortFields.join(',')}&sortTypeList=${sortCriteria.join(',')}`;
+        }
+
+        if (filterCriteria.length > 0) {
+            baseString += `&filterCriteriaList=${filterCriteria.join(',')}&filterOperators=${filterOperators.join(',')}&filterValues=${filterValues.join(',')}`;
+        }
+
+        return this.http.get<Product[]>(
+            baseString
+        );
+    }
 }

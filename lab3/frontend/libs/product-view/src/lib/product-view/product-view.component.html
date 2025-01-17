@@ -5,7 +5,9 @@
     <p>Артикул: {{ product.partNumber }}</p>
     <p>Координаты: ({{ product.coordinates.x}}, {{product.coordinates.y}})</p>
     <p>Цена производства: {{ product.manufacturerCost }}</p>
-    <p>Владелец: {{ product.owner.name }} ({{ product.owner.passportID }})</p>
+    @if (product.owner) {
+        <p>Владелец: {{ product.owner.name }} ({{ product.owner.passportID }})</p>
+    }
     <p>Единицы измерения: {{ product.unitOfMeasure }}</p>
     <p>Дата создания: {{ product.createdDate }}</p>
 }

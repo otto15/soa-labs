@@ -27,11 +27,11 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: BASE_URL_PRODUCTS,
-      useValue: 'https://89.169.155.80:1516',
+      useValue: 'https://89.169.155.80:9912',
     },
     {
       provide: BASE_URL_EBAY,
-      useValue: 'https://89.169.155.80:1515',
+      useValue: 'https://89.169.155.80:9912',
     }
   ],
 };

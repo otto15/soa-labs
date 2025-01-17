@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { TuiAlertService, TuiButton, TuiDataList, TuiDialogService } from '@taiga-ui/core';
 import { PolymorpheusContent } from '@taiga-ui/polymorpheus';
 import { TuiInputModule, TuiSelectModule } from '@taiga-ui/legacy';
-import { FormControl, FormGroup, MaxLengthValidator, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TuiDataListWrapper } from '@taiga-ui/kit/components/data-list-wrapper';
 import { noEmptyStringValidator } from './no-empty-string.validator';
-import { Color, ColorType, PersonService } from '@soa2-front/shared';
+import { Color, ColorType, FunService, PersonService } from '@soa2-front/shared';
 import { EyeColorType, EyeEngColorMap, EyeRusColorMap, HairColorType, HairEngColorMap, HairRusColorMap } from '@soa2-front/shared';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { TuiMapperPipe } from '@taiga-ui/cdk/pipes/mapper';
@@ -32,12 +32,14 @@ const hairEngColorMap = HairEngColorMap;
   styleUrl: './persons-page.component.less',
 })
 export class PersonsPageComponent {
+  private readonly funService = inject(FunService);
   private readonly dialogService = inject(TuiDialogService);
   private readonly personService = inject(PersonService);
   private readonly alertService = inject(TuiAlertService);
   private readonly window = inject(WA_WINDOW);
 
   private readonly searchTrigger$ = new BehaviorSubject<number>(0);
+  protected readonly funToggle$ = this.funService.funToggle$;
 
   protected readonly person$ = this.searchTrigger$.pipe(
     switchMap(() => this.personService.getPerson())
