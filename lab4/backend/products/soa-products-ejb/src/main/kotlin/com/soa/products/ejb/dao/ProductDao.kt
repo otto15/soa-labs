@@ -20,6 +20,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 import javax.sql.DataSource
+import kotlin.math.roundToInt
 
 @Stateless
 @Pool("products-pool")
@@ -265,7 +266,7 @@ open class ProductDao {
         }
 
         val coords = rs.getString("coordinates").removeSurrounding("(", ")").split(",").let {
-            Coordinates(it[0].toDouble().toInt(), it[1].toDouble().toInt())
+            Coordinates(it[0].toDouble().roundToInt(), it[1].toDouble().roundToInt())
         }
 
         return Product(

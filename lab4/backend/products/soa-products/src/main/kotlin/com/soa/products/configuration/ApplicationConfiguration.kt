@@ -2,8 +2,7 @@ package com.soa.products.configuration
 
 import com.soa.products.ejb.service.PersonService
 import com.soa.products.ejb.service.ProductService
-import com.soa.products.exception.FaultResolver
-import com.soa.products.service.HelloService
+import com.soa.products.service.ProductsSoapService
 import jakarta.xml.ws.Endpoint
 import org.apache.catalina.connector.Connector
 import org.apache.cxf.Bus
@@ -22,8 +21,6 @@ import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.client.RestTemplate
 import org.springframework.ws.config.annotation.WsConfigurerAdapter
-import org.springframework.ws.soap.server.endpoint.SoapFaultDefinition
-import org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver
 import java.util.Properties
 import javax.naming.Context
 import javax.naming.InitialContext
@@ -85,36 +82,19 @@ class ApplicationConfiguratio : WsConfigurerAdapter() {
             as PersonService
 
     @Bean
-    fun endpoint(
-        eventEndpoint: HelloService,
+    fun productsEndpoint(
+        productsEndpoint: ProductsSoapService,
         bus: Bus
     ): Endpoint {
-        val endpoint: EndpointImpl = EndpointImpl(bus, eventEndpoint)
+        val endpoint: EndpointImpl = EndpointImpl(bus, productsEndpoint)
         endpoint.publish("/products")
-        endpoint.getServer().getEndpoint().getInInterceptors().add(LoggingInInterceptor())
-        endpoint.getServer().getEndpoint().getOutInterceptors().add(LoggingOutInterceptor())
-        //endpoint.getServer().getEndpoint().getOutFaultInterceptors().add(ExceptionInterceptor())
+        endpoint.server.endpoint.inInterceptors.add(LoggingInInterceptor())
+        endpoint.server.endpoint.outInterceptors.add(LoggingOutInterceptor())
         return endpoint
     }
 
     @Bean(name = [Bus.DEFAULT_BUS_ID])
     fun springBus(): SpringBus {
         return SpringBus()
-    }
-
-    @Bean
-    fun exceptionResolver(): SoapFaultMappingExceptionResolver {
-        val exceptionResolver: SoapFaultMappingExceptionResolver = FaultResolver()
-
-        val faultDefinition = SoapFaultDefinition()
-        faultDefinition.faultCode = SoapFaultDefinition.SERVER
-        exceptionResolver.setDefaultFault(faultDefinition)
-
-        val errorMappings = Properties()
-        errorMappings.setProperty(Exception::class.java.name, SoapFaultDefinition.SERVER.toString())
-        //errorMappings.setProperty(ErrorWithCode::class.java.getName(), SoapFaultDefinition.SERVER.toString())
-        exceptionResolver.setExceptionMappings(errorMappings)
-        exceptionResolver.order = 1
-        return exceptionResolver
     }
 }
