@@ -22,8 +22,23 @@ services:
     networks:
       - soa
 
-  products-1:
-    container_name: products-1
+  products-rest-adapter:
+    container_name: products-rest-adapter
+    image: openjdk:21-oracle
+    volumes:
+      - ./products/soa-products-rest-adapter/build/libs/soa-products-rest-adapter-0.0.1-SNAPSHOT.jar:/products-rest-adapter.jar
+    command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "products-rest-adapter.jar" ]
+    ports:
+      - "1815:1815"
+    environment:
+      PRODUCTS_SOAP_HOST: products
+    networks:
+      - soa
+    depends_on:
+      - products
+
+  products:
+    container_name: products
     image: openjdk:21-oracle
     volumes:
       - ./products/soa-products/build/libs/soa-products-0.0.1-SNAPSHOT.jar:/products.jar
@@ -31,20 +46,7 @@ services:
     ports:
       - "1516:1516"
     environment:
-      SERVICE_ID: products-1
-    networks:
-      - soa
-
-  products-2:
-    container_name: products-2
-    image: openjdk:21-oracle
-    volumes:
-      - ./products/soa-products/build/libs/soa-products-0.0.1-SNAPSHOT.jar:/products.jar
-    command: [ "java", "-jar", "-Dspring.profiles.active=cloud", "products.jar" ]
-    ports:
-      - "1517:1516"
-    environment:
-      SERVICE_ID: products-2
+      SERVICE_ID: products
     networks:
       - soa
 

@@ -13,7 +13,7 @@ class ProductTo : Serializable {
     var id: Long? = null
     var name: String? = null
     var coordinates: CoordinatesTo? = null
-    var createdDate: LocalDate? = null
+    var createdDate: String? = null
     var price: Long? = null
     var manufacturerCost: Long? = null
     var unitOfMeasure: UnitOfMeasureTo? = null
@@ -38,7 +38,7 @@ class ProductTo : Serializable {
         this.id = id
         this.name = name
         this.coordinates = coordinates
-        this.createdDate = createdDate
+        this.createdDate = createdDate.toString()
         this.price = price
         this.manufacturerCost = manufacturerCost
         this.unitOfMeasure = unitOfMeasure

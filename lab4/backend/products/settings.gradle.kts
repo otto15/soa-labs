@@ -4,3 +4,4 @@ plugins {
 rootProject.name = "products"
 include("soa-products")
 include("soa-products-ejb")
+include("soa-products-rest-adapter")
